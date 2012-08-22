@@ -1,0 +1,24 @@
+<li class="dropdown">
+  <% if current_user.is_logged -%>
+    <a class="btn dropdown-toggle btn-inverse" data-toggle="dropdown" href="#" id="link_user_name">
+      <i class="icon-user"></i> <%= current_user.login.titleize %> (<%= current_user.cur_roleLabel%>)
+      <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu">
+      <li> <%= link_to elise_logout_path do %><i class="icon-remove"></i> Sign Out<%end%></li>
+      <li class="divider"></li>
+      <p class="nav-header">Switch role</p>
+      <% current_user.get_roles.each do |role|%>
+        <li> <%= link_to :controller => "elise/account", :action => "role",:roleLabel => role.label,:roleId => role.id do%><i class="icon-list-alt"></i> <%= role.label%><%end%></li>
+      <% end -%>    
+    </ul>
+  <% else -%>
+  <span class="navbar-form pull-right">
+    <%= form_tag 'elise/login' do %>
+      <%= text_field_tag :login, "login", :class => "span2", :onfocus => "this.value=''; this.onfocus=null;" %>
+      <%= password_field_tag :password, "********",  :class => "span2", :onfocus => "this.value=''; this.onfocus=null;" %>
+      <%= submit_tag 'Log In', :id => "loginbutton", :class => "btn-primary span1" %>
+    <% end %>
+    </span>
+  <% end -%>
+</li>

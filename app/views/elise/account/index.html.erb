@@ -1,0 +1,13 @@
+<h1>Log in</h1>
+
+<% if current_user.is_logged %>
+    Logged in as <%= current_user.login %>.<hr/>
+    Switch current role<ol>
+      <% current_user.get_roles.each do |role| %>
+      <li> <%= link_to :controller => "elise/account", :action => "role",:roleLabel => role.label,:roleId => role.id do%></i> <%= role.label%><%end%></li>
+      <%end%>
+    </ol>
+<% else %>
+    <%= render 'login_form' %>
+    <%= link_to "Sign up", elise_logout_path %>
+<% end %>

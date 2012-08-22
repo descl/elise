@@ -1,0 +1,58 @@
+<h1>Listing features</h1>
+<!--https://github.com/twitter/bootstrap/issues/1935 for a on/off button -->
+
+
+
+
+<table class="table table-bordered table-condensed table-sorter table-fixed-header">
+  <thead class="header">
+    <tr>
+      <th>label</th>
+      <%Role.all.each do |role|-%>
+        <th><%= role.label%></th>
+      <%end-%>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @features.each do |feature| %>
+      <tr>
+        <td><%= feature.label %></td>
+        <%Role.all.each do |role|-%>
+          <%= form_for(feature) do |f| %>
+            <% isChecked = feature.attributes.include?('roleId') && feature.roleId.include?(role.id.to_s)%>
+            <td bgcolor="<%= isChecked ? "#468847" : "#B94A48"%>"><center style="padding-top:10px">
+              <% if current_user.can_see("feature.edit")%>
+                <%= f.check_box role.id, { :checked => isChecked,:onchange => 'this.form.submit()',:autocomplete => "off"} %>
+              <%end%> 
+            </center></td>
+          <%end%>
+        <%end-%>
+        <td class="td-button-menu">
+          <div class="btn-group">
+            <%= link_to 'Show', databaseformalizer_entity_path(feature), :class => 'btn btn-info btn-mini' %>
+            <% if current_user.can_see("feature.edit")%>
+              <%= link_to 'Edit', edit_databaseformalizer_entity_path(feature), :class => 'btn btn-warning btn-mini' %>
+            <%end%>
+          </div>
+          <% if current_user.can_see("feature.delete")%>
+            <%= button_to "Destroy", feature, :method=>:delete, :class=>'btn btn-danger btn-mini' %>
+          <%end%>
+          </div>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
